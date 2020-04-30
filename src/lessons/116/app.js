@@ -29,7 +29,7 @@ export default function App() {
     <div>
       <h1>Pokedex</h1>
 
-      <React.SuspenseList>
+      <React.SuspenseList revealOrder="forwards">
         <React.Suspense fallback={<div>Fetching Pokemon...</div>}>
           <ErrorBoundary fallback={"Couldn't catch 'em all."}>
             <PokemonDetail
