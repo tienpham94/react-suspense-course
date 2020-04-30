@@ -52,5 +52,11 @@ export default function App() {
 }
 
 function PokemonCollection() {
-  return <div>{initialCollection.read().count}</div>;
+  return (
+    <div>
+      {initialCollection.read().results.map(pokemon => (
+        <li key={pokemon.name}>{pokemon.name}</li>
+      ))}
+    </div>
+  );
 }
