@@ -6,7 +6,12 @@ import ErrorBoundary from "./error-boundary";
 // 2. Pending: return a new pending promise to React.lazy to enact the Suspense fallback
 // 3. Success: return a new pending promise that resolves a module after a timeout to React.lazy to enact the Suspense fallback
 //    Or just fix it to import properly `pokemon-default` module.
-const PokemonDetail = React.lazy(() => new Promise(resolve => setTimeout(resolve, 1000)));
+const PokemonDetail = React.lazy(
+  () =>
+    new Promise(resolve =>
+      setTimeout(() => resolve({ default: <div>Fake pokemon</div> }), 1000)
+    )
+);
 
 export default function App() {
   return (
