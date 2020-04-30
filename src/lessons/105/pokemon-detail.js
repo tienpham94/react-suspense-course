@@ -30,9 +30,13 @@ function suspensify(promise) {
 }
 
 // 2. Rename the `pokemon` variable to `initialPokemon` to indicate that it is only the first
-let pokemon = suspensify(
-  fetch(`https://pokeapi.co/api/v2/pokemon/1`).then(res => res.json())
-);
+function fetchPokemon(id) {
+  return fetch(`https://pokeapi.co/api/v2/pokemon/${id}`).then(res =>
+    res.json()
+  );
+}
+
+let pokemon = suspensify(fetchPokemon(1));
 
 export default function PokemonDetail() {
   // 1. Use React.useState to track the current PokemonResource and setPokemonResource
