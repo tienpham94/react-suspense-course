@@ -29,34 +29,36 @@ export default function App() {
     <div>
       <h1>Pokedex</h1>
 
-      <ErrorBoundary fallback={"Couldn't catch 'em all."}>
+      <React.SuspenseList revealOrder="together">
         <React.Suspense fallback={"Catching your Pokemon..."}>
-          <PokemonDetail
-            resource={deferredPokemon}
-            isStale={deferredPokemonIsStale}
-          />
+          <ErrorBoundary fallback={"Couldn't catch 'em all."}>
+            <PokemonDetail
+              resource={deferredPokemon}
+              isStale={deferredPokemonIsStale}
+            />
 
-          <button
-            type="button"
-            disabled={deferredPokemonIsStale}
-            onClick={() =>
-              startTransition(() =>
-                setPokemon(
-                  suspensify(fetchPokemon(deferredPokemon.read().id + 1))
+            <button
+              type="button"
+              disabled={deferredPokemonIsStale}
+              onClick={() =>
+                startTransition(() =>
+                  setPokemon(
+                    suspensify(fetchPokemon(deferredPokemon.read().id + 1))
+                  )
                 )
-              )
-            }
-          >
-            Next
-          </button>
+              }
+            >
+              Next
+            </button>
+          </ErrorBoundary>
         </React.Suspense>
-      </ErrorBoundary>
 
-      <ErrorBoundary fallback={"Couldn't catch 'em all."}>
         <React.Suspense fallback={"Catching your Pokemon..."}>
-          <PokemonCollection />
+          <ErrorBoundary fallback={"Couldn't catch 'em all."}>
+            <PokemonCollection />
+          </ErrorBoundary>
         </React.Suspense>
-      </ErrorBoundary>
+      </React.SuspenseList>
     </div>
   );
 }

@@ -1,7 +1,9 @@
+import sleep from "sleep-promise";
+
 export function fetchPokemon(id) {
-  return fetch(`https://pokeapi.co/api/v2/pokemon/${id}`).then(res =>
-    res.json()
-  );
+  return fetch(`https://pokeapi.co/api/v2/pokemon/${id}`)
+    .then(res => res.json())
+    .then(sleep(3000));
 }
 
 export function fetchPokemonCollection() {
