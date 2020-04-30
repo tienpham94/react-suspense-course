@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 
 // ↓↓↓ 👋 Update this line to change the lesson number ↓↓↓
-import Lesson from "./lessons/complete/app";
+import Lesson from "./lessons/101/app";
 
 function App() {
   return <Lesson />;
