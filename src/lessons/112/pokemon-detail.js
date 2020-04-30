@@ -6,8 +6,10 @@ let initialPokemon = suspensify(fetchPokemon(1));
 
 export default function PokemonDetail() {
   let [pokemonResource, setPokemonResource] = React.useState(initialPokemon);
-  let [startTransition, isPending] = React.useTransition({ timeoutMs: 1000 });
+  let [startTransition] = React.useTransition({ timeoutMs: 1000 });
+  const deferredPokemonResource = React.useDeferredValue(pokemonResource, {timeoutMs: 3000});
   let pokemon = pokemonResource.read();
+  const isPending = deferredPokemonResource !== pokemonResource
 
   // EXERCISE
   // 1. Define `deferredPokemonResource` using `React.useDeferredValue(PokemonResource)
