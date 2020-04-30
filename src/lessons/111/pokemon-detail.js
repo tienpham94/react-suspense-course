@@ -8,14 +8,21 @@ function DelaySpinner() {
     <span role="img" aria-label="spinner" className="DelaySpinner">
       <style>{`
         .DelaySpinner {
-          animation: rotation 1.5s infinite linear;
+          animation: 0s linear 0.5s forwards makeVisible, rotation 1.5s infinite linear;
           display: inline-block;
-          font-size: .7rem
+          font-size: .7rem;
+          visibility: hidden;
         }
 
         @keyframes rotation {
           from { transform: rotate(0deg) }
           to { transform: rotate(359deg) }
+        }
+        
+        @keyframes makeVisible {
+          to {
+            visibility: visible;
+          }
         }
       `}</style>
       🌀
