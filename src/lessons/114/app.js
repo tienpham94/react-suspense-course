@@ -5,6 +5,7 @@ import { fetchPokemon, suspensify } from "./api";
 const PokemonDetail = React.lazy(() => import("./pokemon-detail"));
 
 let initialPokemon = suspensify(fetchPokemon(1));
+let initialCollection = suspensify(fetchPokemon(""));
 
 export default function App() {
   let [pokemon, setPokemon] = React.useState(initialPokemon);
@@ -40,6 +41,16 @@ export default function App() {
           </button>
         </React.Suspense>
       </ErrorBoundary>
+
+      <ErrorBoundary fallback={"Couldn't catch 'em all."}>
+        <React.Suspense fallback={"Catching your Pokemon..."}>
+          <PokemonCollection />
+        </React.Suspense>
+      </ErrorBoundary>
     </div>
   );
+}
+
+function PokemonCollection() {
+  return <div>{initialCollection.read().count}</div>;
 }
