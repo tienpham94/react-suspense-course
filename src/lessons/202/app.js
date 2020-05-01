@@ -12,10 +12,7 @@ function PokemonCollection({ onClick }) {
     <div>
       {initialCollection.read().results.map(pokemon => (
         <li key={pokemon.name}>
-          <button
-            type="button"
-            onClick={() => onClick(pokemon.url.split("/")[6])}
-          >
+          <button type="button" onClick={() => onClick(pokemon.id)}>
             {pokemon.name}
           </button>
         </li>
