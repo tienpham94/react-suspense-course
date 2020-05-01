@@ -1,7 +1,9 @@
 import React from "react";
 import { DelaySpinner } from "./ui";
+import { PokemonContext } from "./pokemon";
 
-export default function PokemonDetail({ resource, isStale }) {
+export default function PokemonDetail() {
+  let { pokemon: resource, isStale } = React.useContext(PokemonContext);
   let pokemon = resource.read();
 
   return (
