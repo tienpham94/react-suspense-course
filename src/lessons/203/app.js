@@ -7,18 +7,8 @@ const PokemonDetail = React.lazy(() => import("./pokemon-detail"));
 let initialPokemon = suspensify(fetchPokemon(1));
 let initialCollection = suspensify(fetchPokemonCollection());
 
-function PokemonCollection({ onClick }) {
-  return (
-    <div>
-      {initialCollection.read().results.map(pokemon => (
-        <li key={pokemon.name}>
-          <button type="button" onClick={() => onClick(pokemon.id)}>
-            {pokemon.name}
-          </button>
-        </li>
-      ))}
-    </div>
-  );
+function PokemonCollection({ as: As, renderItem }) {
+  return <As>{initialCollection.read().results.map(renderItem)}</As>;
 }
 
 export default function App() {
@@ -60,9 +50,21 @@ export default function App() {
         <React.Suspense fallback={<div>Fetching the Database...</div>}>
           <ErrorBoundary fallback={"Couldn't catch 'em all."}>
             <PokemonCollection
-              onClick={id =>
-                startTransition(() => setPokemon(suspensify(fetchPokemon(id))))
-              }
+              as="ul"
+              renderItem={pokemon => (
+                <li key={pokemon.name}>
+                  <button
+                    type="button"
+                    onClick={() =>
+                      startTransition(() =>
+                        setPokemon(suspensify(fetchPokemon(pokemon.id)))
+                      )
+                    }
+                  >
+                    {pokemon.name}
+                  </button>
+                </li>
+              )}
             />
           </ErrorBoundary>
         </React.Suspense>
