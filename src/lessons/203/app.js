@@ -7,12 +7,15 @@ const PokemonDetail = React.lazy(() => import("./pokemon-detail"));
 let initialPokemon = suspensify(fetchPokemon(1));
 let initialCollection = suspensify(fetchPokemonCollection());
 
-function PokemonCollection({ as: As, renderItem }) {
+function PokemonCollection({ resource as: As, renderItem }) {
   return <As>{initialCollection.read().results.map(renderItem)}</As>;
 }
 
 export default function App() {
   let [pokemon, setPokemon] = React.useState(initialPokemon);
+  let [collectionResource, setCollectionResource] = React.useState(
+    initialPokemon
+  );
   let deferredPokemon = React.useDeferredValue(pokemon, {
     timeoutMs: 3000
   });
@@ -50,6 +53,7 @@ export default function App() {
         <React.Suspense fallback={<div>Fetching the Database...</div>}>
           <ErrorBoundary fallback={"Couldn't catch 'em all."}>
             <PokemonCollection
+              resource={collectionResource}
               as="ul"
               renderItem={pokemon => (
                 <li key={pokemon.name}>
