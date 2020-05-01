@@ -7,6 +7,7 @@ import {
   fetchPokemonCollection,
   suspensify
 } from "./api";
+import { PokemonContext } from "./pokemon";
 
 const PokemonDetail = React.lazy(() => import("./pokemon-detail"));
 
@@ -34,6 +35,11 @@ export default function App() {
   let deferredPokemonIsStale = deferredPokemon !== pokemon;
   let [startTransition, isPending] = React.useTransition({ timeoutMs: 3000 });
 
+  let pokemonState = {
+    resource: deferredPokemon,
+    isStale: deferredPokemonIsStale
+  };
+
   return (
     <div>
       <h1>Pokedex</h1>
@@ -41,10 +47,9 @@ export default function App() {
       <React.SuspenseList revealOrder="forwards" tail="collapsed">
         <React.Suspense fallback={<div>Fetching Pokemon...</div>}>
           <ErrorBoundary fallback={"Couldn't catch 'em all."}>
-            <PokemonDetail
-              resource={deferredPokemon}
-              isStale={deferredPokemonIsStale}
-            />
+            <PokemonContext.Provider value={pokemonState}>
+              <PokemonDetail />
+            </PokemonContext.Provider>
           </ErrorBoundary>
         </React.Suspense>
 
